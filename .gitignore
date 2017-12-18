@@ -169,6 +169,7 @@ rcf/
 # Windows Store app package directory
 AppPackages/
 BundleArtifacts/
+packages/
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
@@ -240,3 +241,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+packages.config
