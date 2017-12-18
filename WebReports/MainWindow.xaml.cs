@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using WebReports.Common;
+using WebReports.ConcreteClasses;
 using WebReports.LiveQueueReport;
 
 namespace WebReports
@@ -37,14 +38,16 @@ namespace WebReports
 
             var servers = ipReader.GetIpListFromXml($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\\LiveQueueReport\\queues.xml");
 
-            foreach (var server in servers)
+            var threadExecutor = new LqrThreadExecutor(new LiveQueueXlsReporterCreator());
+
+            foreach (var server in servers) //Цикл выполняется 8 раз
             {
-                var threadExecutor = new LqrThreadExecutor {Ip = server.Ip};
-                //var task = new Task(threadExecutor.ExecuteInNewThread);
-                //task.Start();
+                threadExecutor.Ip = server.Ip;
                 await threadExecutor.ExecuteInNewThread();
             }
-            MessageBox.Show("Done");
+
+            await threadExecutor.CreateReport();
+            MessageBox.Show("Отчёт по живой очереди сформирован.");
 
         }
     }

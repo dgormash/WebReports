@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebReports.Abstractions;
 using WebReports.ConcreteClasses;
 using WebReports.LiveQueueReport;
@@ -8,15 +9,30 @@ namespace WebReports.Common
     public class LqrThreadExecutor:IThreadExecutor
     {
         public string Ip { get; set; }
+        //public AbstractReporterCreator ReporterCreator { get; set; }
+        private readonly LiveQueueHtmlParser _parser;
+        private readonly AbstractReporter _reporter;
+        private readonly List<Queue> _queues; 
+
+        public LqrThreadExecutor(AbstractReporterCreator reporterCreator)
+        {
+            _parser = new LiveQueueHtmlParser();
+            _reporter = reporterCreator.CreateReporter();
+            _queues = new List<Queue>();
+        }
+
         public async Task ExecuteInNewThread()
         {
-            var parser = new LiveQueueHtmlParser {Ip = Ip};
-            Queue result =  await parser.ParseQueueData();
-
-            AbstractReporterCreator reporterCreator= new LiveQueueXlsReporterCreator();
-            AbstractReporter reporter =  reporterCreator.CreateReporter();
-            var rep = (LiveQueueXlsReporter) reporter;
-            rep.CreateReport(result);
+            _parser.Ip = Ip;
+            _queues.Add(await _parser.ParseQueueData());
+            
         }
+
+        public async Task CreateReport()
+        {
+            var rep = (LiveQueueXlsReporter)_reporter;
+            await rep.CreateReport(_queues);
+        }
+
     }
 }
