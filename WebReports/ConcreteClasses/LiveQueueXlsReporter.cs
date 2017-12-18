@@ -16,12 +16,12 @@ namespace WebReports.ConcreteClasses
         private ISheet _sheet;
         private IRow _row;
         private ICell _cell;
-        private Task _task;
+        //private Task _task;
         
-        public Task CreateReport(List<Queue> queueInfo)
+        public void CreateReport(List<Queue> queueInfo)
         {
-            return _task = new Task(() =>
-            {
+            //return _task = new Task(() =>
+            //{
                 var filePath = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\LiveQueueReport\table.xlsx";
 
                 using (
@@ -142,7 +142,7 @@ namespace WebReports.ConcreteClasses
                 {
                     _book.Write(file);
                 }
-            });
+            //});
         }
 
         private void SetServiceStateValue(int rowNum, int cellNum, string value)

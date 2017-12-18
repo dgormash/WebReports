@@ -28,10 +28,10 @@ namespace WebReports.Common
             
         }
 
-        public async Task CreateReport()
+        public void CreateReport()
         {
             var rep = (LiveQueueXlsReporter)_reporter;
-            await rep.CreateReport(_queues);
+            rep.CreateReport(_queues);
         }
 
     }

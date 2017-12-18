@@ -12,9 +12,10 @@ namespace WebReports.LiveQueueReport
         private  HttpClient _client;
         private string _authenticityToken;
         private  string _pageContent;
-        private readonly Queue _liveQueue = new Queue();
+        private  Queue _liveQueue;
         public async Task<Queue> ParseQueueData()
         {
+            _liveQueue = new Queue();
             _client = new HttpClient();
             _pageContent = await GetPageContentGetRq($"http://{Ip}/login");
 

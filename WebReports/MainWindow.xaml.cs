@@ -43,10 +43,10 @@ namespace WebReports
             foreach (var server in servers) //Цикл выполняется 8 раз
             {
                 threadExecutor.Ip = server.Ip;
-                await threadExecutor.ExecuteInNewThread();
+                 await threadExecutor.ExecuteInNewThread();
             }
 
-            await threadExecutor.CreateReport();
+            threadExecutor.CreateReport();
             MessageBox.Show("Отчёт по живой очереди сформирован.");
 
         }
