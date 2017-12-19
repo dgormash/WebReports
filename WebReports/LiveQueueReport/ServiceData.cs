@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebReports.LiveQueueReport
 {
-    class ServiceData
+    public class ServiceData
     {
         public string ServiceName { get; set; }
         public string SerivceStatus { get; set; }

@@ -135,10 +135,17 @@ namespace WebReports.LiveQueueReport
             htmlDocument.LoadHtml(httpPageContent);
 
             var inputNodes = htmlDocument.DocumentNode.SelectNodes("//input[contains(@name, 'authenticity_token')]");
-            foreach (var node in inputNodes)
+            if (inputNodes != null)
             {
-                var autheticityTokenInput = node.Attributes["value"];
-                result = autheticityTokenInput.Value;
+                foreach (var node in inputNodes)
+                {
+                    var autheticityTokenInput = node.Attributes["value"];
+                    result = autheticityTokenInput.Value;
+                }
+            }
+            else
+            {
+                return null;
             }
 
             return result;
